@@ -1,5 +1,8 @@
 package ca.benwu;
 
+import java.sql.Array;
+import java.util.Arrays;
+
 public class Matrix {
 
     private int width;
@@ -26,6 +29,11 @@ public class Matrix {
         }
         this.height = values.length;
         this.values = values;
+
+        if(width < 1 || height < 1) {
+            throw new IllegalArgumentException("Dimensions must be non-zero");
+        }
+
     }
 
     @Override
@@ -43,7 +51,7 @@ public class Matrix {
 
     public Matrix times(Matrix b) {
         if(width != b.height) {
-            return null;
+            throw new IllegalArgumentException("Incorrect matrix dimensions");
         }
         double[][] rows = new double[height][b.width];
         for(int row = 0 ; row < height ; row++) {
@@ -104,6 +112,10 @@ public class Matrix {
     }
 
     public static Matrix random(int height, int width) {
+        if(width < 1 || height < 1) {
+            throw new IllegalArgumentException("Dimensions must be non-zero");
+        }
+
         double[][] values = new double[height][width];
 
         for(int row = 0 ; row < height ; row++) {
@@ -115,6 +127,10 @@ public class Matrix {
     }
 
     public static Matrix random(int height, int width, int max) {
+        if(width < 1 || height < 1) {
+            throw new IllegalArgumentException("Dimensions must be non-zero");
+        }
+
         double[][] values = new double[height][width];
 
         for(int row = 0 ; row < height ; row++) {
@@ -123,5 +139,21 @@ public class Matrix {
             }
         }
         return new Matrix(values);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if((o instanceof Matrix)
+                && height == ((Matrix) o).getHeight()
+                && width == ((Matrix) o).getWidth()) {
+            for (int row = 0 ; row < height ; row++) {
+                if(!Arrays.equals(values[row], ((Matrix) o).values[row])) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 }
