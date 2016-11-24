@@ -1,6 +1,5 @@
 package ca.benwu;
 
-import java.sql.Array;
 import java.util.Arrays;
 
 public class Matrix {
@@ -9,11 +8,7 @@ public class Matrix {
     private int height;
     private double[][] values;
 
-    public Matrix(int width, int height, double[][] values) {
-        this.width = width;
-        this.height = height;
-        this.values = values;
-    }
+    //TODO: Solve, LU, determinant, complex numbers
 
     public Matrix(double[][] values) {
         if(values.length > 0) {
