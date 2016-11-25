@@ -11,7 +11,7 @@ public class Matrix {
     final private int height;
     final private ComplexNumber[][] values;
 
-    //TODO: Solve, LU, determinant, complex numbers
+    //TODO: Solve, LU, determinant
 
     public Matrix(ComplexNumber[][] values) {
         if(values.length > 0) {
