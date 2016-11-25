@@ -2,18 +2,21 @@ package ca.benwu;
 
 import java.util.Arrays;
 
+import ca.benwu.number.AbstractNumber;
+import ca.benwu.number.ComplexNumber;
+
 public class Matrix {
 
-    private int width;
-    private int height;
-    private double[][] values;
+    final private int width;
+    final private int height;
+    final private ComplexNumber[][] values;
 
     //TODO: Solve, LU, determinant, complex numbers
 
-    public Matrix(double[][] values) {
+    public Matrix(ComplexNumber[][] values) {
         if(values.length > 0) {
             int measuredWidth = values[0].length;
-            for(double[] row : values) {
+            for(ComplexNumber[] row : values) {
                 if(measuredWidth != row.length) {
                     throw new IllegalArgumentException("Incorrect matrix dimensions");
                 }
@@ -31,13 +34,41 @@ public class Matrix {
 
     }
 
+    public Matrix(double[][] values) {
+        if(values.length > 0) {
+            int measuredWidth = values[0].length;
+            for(double[] row : values) {
+                if(measuredWidth != row.length) {
+                    throw new IllegalArgumentException("Incorrect matrix dimensions");
+                }
+            }
+            this.width = measuredWidth;
+        } else {
+            this.width = 0;
+        }
+        this.height = values.length;
+
+        this.values = new ComplexNumber[height][width];
+
+        for(int row = 0 ; row < height ; row++) {
+            for(int col = 0 ; col < width ; col++) {
+                this.values[row][col] = new ComplexNumber(values[row][col]);
+            }
+        }
+
+        if(width < 1 || height < 1) {
+            throw new IllegalArgumentException("Dimensions must be non-zero");
+        }
+
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (double[] row : values) {
-            for(double value : row) {
-                stringBuilder.append(value);
-                stringBuilder.append(" ");
+        for (ComplexNumber[] row : values) {
+            for(ComplexNumber value : row) {
+                stringBuilder.append(value.toString());
+                stringBuilder.append("\t");
             }
             stringBuilder.append("\n");
         }
@@ -48,7 +79,7 @@ public class Matrix {
         if(width != b.height) {
             throw new IllegalArgumentException("Incorrect matrix dimensions");
         }
-        double[][] rows = new double[height][b.width];
+        ComplexNumber[][] rows = new ComplexNumber[height][b.width];
         for(int row = 0 ; row < height ; row++) {
             for(int col = 0 ; col < b.width ; col++) {
                 rows[row][col] = vectorDotProduct(getRow(row).transpose(), b.getColumn(col));
@@ -58,7 +89,7 @@ public class Matrix {
     }
 
     public Matrix transpose() {
-        double[][] transposedValues = new double[width][height];
+        ComplexNumber[][] transposedValues = new ComplexNumber[width][height];
 
         for(int row = 0 ; row < height ; row++) {
             for(int col = 0 ; col < width ; col++) {
@@ -78,30 +109,30 @@ public class Matrix {
     }
 
     public Matrix getRow(int index) {
-        return new Matrix(new double[][]{values[index]});
+        return new Matrix(new ComplexNumber[][]{values[index]});
     }
 
     public Matrix getColumn(int index) {
-        double[] column = new double[height];
+        ComplexNumber[] column = new ComplexNumber[height];
 
         for (int row = 0; row < height; row++) {
             column[row] = values[row][index];
         }
 
-        return new Matrix(new double[][]{column}).transpose();
+        return new Matrix(new ComplexNumber[][]{column}).transpose();
     }
 
-    public double valueAt(int row, int col) {
+    public ComplexNumber valueAt(int row, int col) {
         return values[row][col];
     }
 
-    private static int vectorDotProduct(Matrix a, Matrix b) {
+    private static ComplexNumber vectorDotProduct(Matrix a, Matrix b) {
         if(a.getWidth() != 1 || b.getWidth() != 1 || a.getHeight() != b.getHeight()) {
             throw new IllegalArgumentException();
         }
-        int sum = 0;
+        ComplexNumber sum = new ComplexNumber(0);
         for (int i = 0 ; i < a.height ; i++) {
-            sum += a.valueAt(i, 0) * b.valueAt(i, 0);
+            sum = sum.plus(a.valueAt(i, 0).times(b.valueAt(i, 0)));
         }
         return sum;
     }

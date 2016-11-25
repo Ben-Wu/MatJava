@@ -139,7 +139,7 @@ public class MatrixTest {
                 {5}});
 
         assertEquals(a.getRow(1), a1);
-        assertEquals(a.getRow(2), a2);
+        assertEquals(a.getRow(3), a2);
         assertEquals(a.getColumn(0), a0);
         assertEquals(a.getColumn(3), a3);
     }

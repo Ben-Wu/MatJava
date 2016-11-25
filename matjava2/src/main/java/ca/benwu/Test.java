@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
 public class Test {
     public static void main(String[] args) {
         try {
-            BufferedImage inputImage = ImageIO.read(new File("house.png"));
+            BufferedImage inputImage = ImageIO.read(new File("house.jpg"));
             boolean hasAlphaChannel = inputImage.getAlphaRaster() != null;
             int[][][] arr = getPixelData(inputImage);
 

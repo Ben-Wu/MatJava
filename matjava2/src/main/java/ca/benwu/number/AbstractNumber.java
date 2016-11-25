@@ -3,7 +3,7 @@ package ca.benwu.number;
 /**
  * Created by Ben Wu on 2016-11-24.
  */
-
+// TODO: only complex numbers are used right now
 public abstract class AbstractNumber {
 
     protected double val1;
