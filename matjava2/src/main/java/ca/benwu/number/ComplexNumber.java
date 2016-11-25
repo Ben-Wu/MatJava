@@ -18,7 +18,7 @@ public class ComplexNumber extends AbstractNumber {
         if(n instanceof ComplexNumber) {
             return new ComplexNumber(
                     getReal() * ((ComplexNumber) n).getReal() - getImaginary() * ((ComplexNumber) n).getImaginary(),
-                    getReal() * ((ComplexNumber) n).getImaginary() - getImaginary() * ((ComplexNumber) n).getReal());
+                    getReal() * ((ComplexNumber) n).getImaginary() + getImaginary() * ((ComplexNumber) n).getReal());
         } else if(n instanceof RationalNumber) {
             return new ComplexNumber(
                     getReal() * ((RationalNumber) n).getNumerator() / ((RationalNumber) n).getDenom(),
@@ -48,7 +48,7 @@ public class ComplexNumber extends AbstractNumber {
 
     @Override
     public String toString() {
-        return getReal() + (val2 == 0 ? "" : ((val2 >= 0 ? " + " : " - ") + Math.abs(getImaginary())));
+        return getReal() + (val2 == 0 ? "" : ((val2 >= 0 ? " + " : " - ") + Math.abs(getImaginary()) + "i"));
     }
 
     @Override

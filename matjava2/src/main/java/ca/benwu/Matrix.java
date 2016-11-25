@@ -75,6 +75,19 @@ public class Matrix {
         return stringBuilder.toString();
     }
 
+    public Matrix plus(Matrix b) {
+        if(width != b.height) {
+            throw new IllegalArgumentException("Incorrect matrix dimensions");
+        }
+        ComplexNumber[][] rows = new ComplexNumber[height][b.width];
+        for(int row = 0 ; row < height ; row++) {
+            for(int col = 0 ; col < b.width ; col++) {
+                rows[row][col] = values[row][col].plus(b.valueAt(row, col));
+            }
+        }
+        return new Matrix(rows);
+    }
+
     public Matrix times(Matrix b) {
         if(width != b.height) {
             throw new IllegalArgumentException("Incorrect matrix dimensions");
