@@ -14,14 +14,10 @@ import javax.imageio.ImageIO;
 
 public class Test {
     public static void main(String[] args) {
-        Matrix a = new Matrix(new double[][]{{7,8,3,0}, {8,9,3,0}, {6,9,9,7}, {1,4,7,5}});
-        Matrix b = new Matrix(new double[][]{{6,8,5,1}, {3,5,6,6}, {7,3,0,2}, {1,4,9,1}});
-
         try {
-            BufferedImage hugeImage = ImageIO.read(new File("C:\\Users\\bw964\\Dropbox\\School\\3A\\CS370\\a2\\house.jpg"));
-            int[][][] arr = convertTo2DWithoutUsingGetRGB(hugeImage);
-
-            File output = new File("output.jpg");
+            BufferedImage inputImage = ImageIO.read(new File("house.png"));
+            boolean hasAlphaChannel = inputImage.getAlphaRaster() != null;
+            int[][][] arr = getPixelData(inputImage);
 
             int colours = arr.length;
             int width = arr[0][0].length;
@@ -32,16 +28,16 @@ public class Test {
             for (int row = 0 ; row < height ; row++) {
                 for (int col = 0; col < width; col++) {
                     for (int colour = 0; colour < colours; colour++) {
-                        newImage[colours * (row * width + col) + colour] = 255 - arr[colour][row][col];
+                        newImage[colours * (row * width + col) + colour] = arr[colour][row][col];
                     }
                 }
             }
 
-            BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
+            BufferedImage image = new BufferedImage(width, height, hasAlphaChannel ? BufferedImage.TYPE_4BYTE_ABGR : BufferedImage.TYPE_INT_BGR);
             WritableRaster raster = image.getRaster();
-            raster.setPixels(0,0,width,height,newImage);
+            raster.setPixels(0, 0, width, height, newImage);
 
-            ImageIO.write(image, "jpg", output);
+            ImageIO.write(image, "png", new File("compressed.png"));
 
             System.out.print("done");
         } catch (IOException e) {
@@ -49,7 +45,7 @@ public class Test {
         }
     }
 
-    private static int[][][] convertTo2DWithoutUsingGetRGB(BufferedImage image) {
+    private static int[][][] getPixelData(BufferedImage image) {
 
         final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
         final int width = image.getWidth();
@@ -61,10 +57,11 @@ public class Test {
         if (hasAlphaChannel) {
             final int pixelLength = 4;
             for (int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength) {
-                result[0][row][col] = (pixels[pixel] & 0xff); // alpha
-                result[3][row][col] = (pixels[pixel + 1] & 0xff); // blue
-                result[2][row][col] = (pixels[pixel + 2] & 0xff); // green
-                result[1][row][col] = (pixels[pixel + 3] & 0xff); // red
+                result[3][row][col] = (pixels[pixel] & 0xff); // alpha
+                result[2][row][col] = (pixels[pixel + 1] & 0xff); // blue
+                result[1][row][col] = (pixels[pixel + 2] & 0xff); // green
+                result[0][row][col] = (pixels[pixel + 3] & 0xff); // red
+
                 col++;
                 if (col == width) {
                     col = 0;
@@ -77,6 +74,7 @@ public class Test {
                 result[2][row][col] = (pixels[pixel] & 0xff); // blue
                 result[1][row][col] = (pixels[pixel + 1] & 0xff); // green
                 result[0][row][col] = (pixels[pixel + 2] & 0xff); // red
+
                 col++;
                 if (col == width) {
                     col = 0;
