@@ -97,4 +97,8 @@ public class Fourier {
         return f;
     }
 
+    public static Matrix dct(Matrix m) {
+return null;
+    }
+
 }

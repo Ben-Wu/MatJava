@@ -11,7 +11,7 @@ public class Matrix {
     final private int height;
     final private ComplexNumber[][] values;
 
-    //TODO: Solve, LU, determinant
+    //TODO: Solve, LU, determinant, n-dimensional
 
     public Matrix(ComplexNumber[][] values) {
         if(values.length > 0) {
@@ -190,6 +190,40 @@ public class Matrix {
             }
         }
         return new Matrix(values);
+    }
+
+    public Matrix horzcat(Matrix m) {
+        if(m.getHeight() != getHeight()) {
+            throw new IllegalArgumentException("Matrix heights do not match");
+        }
+        ComplexNumber[][] concatValues = new ComplexNumber[getHeight()][];
+
+        for(int row = 0 ; row < getHeight() ; row++) {
+            ComplexNumber[] concatRow = new ComplexNumber[m.getWidth() + getWidth()];
+            for(int col = 0 ; col < getWidth() ; col++) {
+                concatRow[col] = valueAt(row,col);
+            }
+            for(int col = getWidth() ; col < m.getWidth() + getWidth() ; col++) {
+                concatRow[col] = m.valueAt(row,col - getWidth());
+            }
+            concatValues[row] = concatRow;
+        }
+        return new Matrix(concatValues);
+    }
+
+    public Matrix vertcat(Matrix m) {
+        if(m.getWidth() != getWidth()) {
+            throw new IllegalArgumentException("Matrix widths do not match");
+        }
+        ComplexNumber[][] concatValues = new ComplexNumber[getHeight() + m.getHeight()][];
+
+        for(int row = 0 ; row < getHeight() ; row++) {
+            concatValues[row] = getRow(row).getValueArray()[0];
+        }
+        for(int row = getHeight() ; row < getHeight() + m.getHeight() ; row++) {
+            concatValues[row] = m.getRow(row - getHeight()).getValueArray()[0];
+        }
+        return new Matrix(concatValues);
     }
 
     @Override

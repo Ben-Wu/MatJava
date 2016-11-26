@@ -243,4 +243,24 @@ public class MatrixTest {
         assertEquals(a.plus(b), ab);
         assertEquals(b.plus(a), ab);
     }
+
+    @Test
+    public void horzcatTest() {
+        Matrix a = new Matrix(new double[][] {{1,2},{6,7}});
+        Matrix b = new Matrix(new double[][] {{3,4,5},{8,9,10}});
+
+        Matrix ab = new Matrix(new double[][] {{1,2,3,4,5},{6,7,8,9,10}});
+
+        assertEquals(ab,a.horzcat(b));
+    }
+
+    @Test
+    public void vertcatTest() {
+        Matrix a = new Matrix(new double[][] {{1,2},{3,4},{5,6}});
+        Matrix b = new Matrix(new double[][] {{7,8},{9,10}});
+
+        Matrix ab = new Matrix(new double[][] {{1,2},{3,4},{5,6},{7,8},{9,10}});
+
+        assertEquals(ab,a.vertcat(b));
+    }
 }
