@@ -135,8 +135,20 @@ public class Matrix {
         return new Matrix(new ComplexNumber[][]{column}).transpose();
     }
 
+    public ComplexNumber[][] getValueArray() {
+        return values;
+    }
+
     public ComplexNumber valueAt(int row, int col) {
         return values[row][col];
+    }
+
+    public void setValue(int row, int col, ComplexNumber value) {
+        values[row][col] = value;
+    }
+
+    public void setValue(int row, int col, double value) {
+        values[row][col] = new ComplexNumber(value);
     }
 
     private static ComplexNumber vectorDotProduct(Matrix a, Matrix b) {

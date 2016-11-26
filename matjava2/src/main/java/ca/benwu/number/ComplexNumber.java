@@ -28,6 +28,10 @@ public class ComplexNumber extends AbstractNumber {
         }
     }
 
+    public ComplexNumber times(double n) {
+        return new ComplexNumber(getReal() * n, getImaginary() * n);
+    }
+
     public ComplexNumber plus(AbstractNumber n) {
         if(n instanceof ComplexNumber) {
             return new ComplexNumber(
@@ -36,6 +40,28 @@ public class ComplexNumber extends AbstractNumber {
         } else {
             throw new IllegalArgumentException("Unrecognized number type");
         }
+    }
+
+    public ComplexNumber conjugate() {
+        return new ComplexNumber(getReal(), -getImaginary());
+    }
+
+    public ComplexNumber plus(double n) {
+        return new ComplexNumber(getReal() + n, getImaginary());
+    }
+
+    public ComplexNumber minus(AbstractNumber n) {
+        if(n instanceof ComplexNumber) {
+            return new ComplexNumber(
+                    getReal() - ((ComplexNumber) n).getReal(),
+                    getImaginary() - ((ComplexNumber) n).getImaginary());
+        } else {
+            throw new IllegalArgumentException("Unrecognized number type");
+        }
+    }
+
+    public ComplexNumber minus(double n) {
+        return new ComplexNumber(getReal() - n, getImaginary());
     }
 
     // integer exponents only

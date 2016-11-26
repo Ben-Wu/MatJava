@@ -39,4 +39,24 @@ public class FourierTest {
         assertEquals(new ComplexNumber(Math.sqrt(0.5),Math.sqrt(0.5)), w8.pow(9));
     }
 
+    @Test
+    public void dftTest() {
+        Matrix f = new Matrix(new double[][] {{1,3,2,4,5,4,2,3}});
+        Matrix F = Fourier.dft(f);
+
+        Matrix expected = new Matrix(new double[][]{{24,-4-2/Math.sqrt(2),2,-4+2/Math.sqrt(2),-4,-4+2/Math.sqrt(2),2,-4-2/Math.sqrt(2)}});
+
+        assertEquals(expected, F);
+    }
+
+    @Test
+    public void idftTest() {
+        Matrix F = new Matrix(new double[][]{{24,-4-2/Math.sqrt(2),2,-4+2/Math.sqrt(2),-4,-4+2/Math.sqrt(2),2,-4-2/Math.sqrt(2)}});
+        Matrix f = Fourier.idft(F);
+
+        Matrix expected = new Matrix(new double[][] {{1,3,2,4,5,4,2,3}});
+
+        assertEquals(expected, f);
+    }
+
 }
