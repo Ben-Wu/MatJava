@@ -59,6 +59,22 @@ public class FourierTest {
     }
 
     @Test
+    public void dft2Test() {
+        Matrix f = new Matrix(new double[][] {
+                {208, 161, 244, 244},
+                {231, 25, 246, 124},
+                {32, 71, 40, 204},
+                {233, 139, 248, 36}});
+
+        assertEquals(new Matrix(new ComplexNumber[][]{
+                {new ComplexNumber(2486), new ComplexNumber(-74,212), new ComplexNumber(478), new ComplexNumber(-74,-212)},
+                {new ComplexNumber(510,30), new ComplexNumber(174,-50), new ComplexNumber(250,-22), new ComplexNumber(-230,50)},
+                {new ComplexNumber(-78), new ComplexNumber(-14,220), new ComplexNumber(-790), new ComplexNumber(-14,-220)},
+                {new ComplexNumber(510,-30), new ComplexNumber(-230,-50), new ComplexNumber(250,22), new ComplexNumber(174,50)}}),
+                Fourier.dft2(f));
+    }
+
+    @Test
     public void idftTest() {
         Matrix F = new Matrix(new double[][]{{24,-4-2/Math.sqrt(2),2,-4+2/Math.sqrt(2),-4,-4+2/Math.sqrt(2),2,-4-2/Math.sqrt(2)}});
         Matrix F2 = new Matrix(new ComplexNumber[][]{{
@@ -75,4 +91,19 @@ public class FourierTest {
         assertEquals(new Matrix(new double[][] {{2,6,7,8,5,4,12,1}}), Fourier.idft(F2));
     }
 
+    @Test
+    public void idft2Test() {
+        Matrix F = new Matrix(new ComplexNumber[][]{
+                {new ComplexNumber(2486), new ComplexNumber(-74,212), new ComplexNumber(478), new ComplexNumber(-74,-212)},
+                {new ComplexNumber(510,30), new ComplexNumber(174,-50), new ComplexNumber(250,-22), new ComplexNumber(-230,50)},
+                {new ComplexNumber(-78), new ComplexNumber(-14,220), new ComplexNumber(-790), new ComplexNumber(-14,-220)},
+                {new ComplexNumber(510,-30), new ComplexNumber(-230,-50), new ComplexNumber(250,22), new ComplexNumber(174,50)}});
+
+        assertEquals(new Matrix(new double[][] {
+                        {208, 161, 244, 244},
+                        {231, 25, 246, 124},
+                        {32, 71, 40, 204},
+                        {233, 139, 248, 36}}),
+                Fourier.idft2(F));
+    }
 }

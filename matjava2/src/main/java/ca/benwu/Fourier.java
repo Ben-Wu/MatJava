@@ -48,11 +48,11 @@ public class Fourier {
         Matrix F;
         ComplexNumber[][] Fvalues = new ComplexNumber[f.getHeight()][];
         for(int row = 0 ; row < f.getHeight() ; row++) {
-            Fvalues[row] = fft(f.getValueArray()[0]);
+            Fvalues[row] = fft(f.getValueArray()[row]);
         }
         F = new Matrix(Fvalues).transpose();
         for(int row = 0 ; row < F.getHeight() ; row++) {
-            Fvalues[row] = fft(F.getValueArray()[0]);
+            Fvalues[row] = fft(F.getValueArray()[row]);
         }
         F = new Matrix(Fvalues).transpose();
 
@@ -78,6 +78,21 @@ public class Fourier {
         for (int i = 0; i < n; i++) {
             f[i] = f[i].conjugate().times(1.0 / n);
         }
+
+        return f;
+    }
+
+    public static Matrix idft2(Matrix F) {
+        Matrix f;
+        ComplexNumber[][] fvalues = new ComplexNumber[F.getHeight()][];
+        for(int row = 0 ; row < F.getHeight() ; row++) {
+            fvalues[row] = ifft(F.getValueArray()[row]);
+        }
+        f = new Matrix(fvalues).transpose();
+        for(int row = 0 ; row < f.getHeight() ; row++) {
+            fvalues[row] = ifft(f.getValueArray()[row]);
+        }
+        f = new Matrix(fvalues).transpose();
 
         return f;
     }
