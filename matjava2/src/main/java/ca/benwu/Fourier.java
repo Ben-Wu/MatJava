@@ -8,9 +8,8 @@ import ca.benwu.number.ComplexNumber;
 
 public class Fourier {
 
-    public ComplexNumber rootOfUnity() {
-        //Math.exp();
-        return null;
+    public static ComplexNumber rootOfUnity(int n) {
+        return new ComplexNumber(Math.cos(2*Math.PI/n), Math.sin(2*Math.PI/n));
     }
 
 }

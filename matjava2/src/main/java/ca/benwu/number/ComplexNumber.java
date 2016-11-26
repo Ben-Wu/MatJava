@@ -38,17 +38,31 @@ public class ComplexNumber extends AbstractNumber {
         }
     }
 
+    // integer exponents only
+    public ComplexNumber pow(int exponent) {
+        if(exponent == 0) {
+            return new ComplexNumber(1);
+        }
+        ComplexNumber c = new ComplexNumber(getReal(), getImaginary());
+        for(int i = 1 ; i < exponent ; i++) {
+            c = c.times(this);
+        }
+        return c;
+    }
+
     public double getReal() {
-        return val1;
+        return Math.round(val1 * 10)/10.0;
     }
 
     public double getImaginary() {
-        return val2;
+        return Math.round(val2 * 10)/10.0;
     }
 
     @Override
     public String toString() {
-        return getReal() + (val2 == 0 ? "" : ((val2 >= 0 ? " + " : " - ") + Math.abs(getImaginary()) + "i"));
+        return getReal()
+                + (getImaginary() == 0 ? "" : ((getImaginary() >= 0 ? " + " : " - ")
+                        + Math.abs(getImaginary()) + "i"));
     }
 
     @Override

@@ -9,6 +9,10 @@ import java.util.Scanner;
 
 public class Test {
     public static void main(String[] args) {
+        System.out.println(Math.exp(3));
+    }
+
+    private static void imageTest() {
         try {
             Scanner s = new Scanner(System.in);
             System.out.println("Input filename: ");
