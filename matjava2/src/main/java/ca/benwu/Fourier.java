@@ -14,7 +14,7 @@ public class Fourier {
 
     // only ffts the first row
     public static Matrix dft(Matrix f) {
-        ComplexNumber[] F = fft(f.getRow(0).getValueArray()[0]);
+        ComplexNumber[] F = fft(f.getValueArray()[0]);
 
         return new Matrix(new ComplexNumber[][] {F});
     }
@@ -44,8 +44,24 @@ public class Fourier {
         return F;
     }
 
+    public static Matrix dft2(Matrix f) {
+        Matrix F;
+        ComplexNumber[][] Fvalues = new ComplexNumber[f.getHeight()][];
+        for(int row = 0 ; row < f.getHeight() ; row++) {
+            Fvalues[row] = fft(f.getValueArray()[0]);
+        }
+        F = new Matrix(Fvalues).transpose();
+        for(int row = 0 ; row < F.getHeight() ; row++) {
+            Fvalues[row] = fft(F.getValueArray()[0]);
+        }
+        F = new Matrix(Fvalues).transpose();
+
+        return F;
+    }
+
+
     public static Matrix idft(Matrix F) {
-        ComplexNumber[] f = ifft(F.getRow(0).getValueArray()[0]);
+        ComplexNumber[] f = ifft(F.getValueArray()[0]);
 
         return new Matrix(new ComplexNumber[][] {f});
     }

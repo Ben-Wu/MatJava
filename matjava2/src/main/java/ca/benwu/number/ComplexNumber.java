@@ -77,11 +77,11 @@ public class ComplexNumber extends AbstractNumber {
     }
 
     public double getReal() {
-        return Math.round(val1 * 10)/10.0;
+        return Math.round(val1 * 10000)/10000.0;
     }
 
     public double getImaginary() {
-        return Math.round(val2 * 10)/10.0;
+        return Math.round(val2 * 10000)/10000.0;
     }
 
     @Override
@@ -93,6 +93,8 @@ public class ComplexNumber extends AbstractNumber {
 
     @Override
     public boolean equals(Object o) {
-        return (o instanceof ComplexNumber) && getReal() == ((ComplexNumber) o).getReal() && getImaginary() == ((ComplexNumber) o).getImaginary();
+        return (o instanceof ComplexNumber)
+                && Math.abs(getReal() -((ComplexNumber) o).getReal()) < 0.0002
+                && Math.abs(getImaginary() - ((ComplexNumber) o).getImaginary()) < 0.0002;
     }
 }
