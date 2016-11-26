@@ -263,4 +263,13 @@ public class MatrixTest {
 
         assertEquals(ab,a.vertcat(b));
     }
+
+    @Test
+    public void subMatrixTest() {
+        Matrix a = new Matrix(new double[][] {{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}});
+
+        Matrix subA = new Matrix(new double[][] {{6,7},{10,11}});
+
+        assertEquals(subA,a.subMatrix(1,1,2,2));
+    }
 }

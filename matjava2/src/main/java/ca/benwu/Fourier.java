@@ -97,8 +97,20 @@ public class Fourier {
         return f;
     }
 
-    public static Matrix dct(Matrix m) {
-return null;
+    public static Matrix extension(Matrix m) {
+        Matrix extension = m;
+        for(int col = m.getWidth() - 2 ; col > 0 ; col--) {
+            extension = extension.horzcat(m.getColumn(col));
+        }
+        for(int row = m.getHeight() - 2 ; row > 0 ; row--) {
+            extension = extension.vertcat(extension.getRow(row));
+        }
+        return extension;
+    }
+
+    // assumes m is an extension
+    public static Matrix inverseExtension(Matrix m) {
+        return m.subMatrix(0,0,m.getHeight()/2,m.getWidth()/2);
     }
 
 }

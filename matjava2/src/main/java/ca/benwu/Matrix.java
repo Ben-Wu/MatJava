@@ -15,9 +15,12 @@ public class Matrix {
 
     public Matrix(ComplexNumber[][] values) {
         if(values.length > 0) {
+            if(values[0] == null) {
+                throw new IllegalArgumentException("Incorrect matrix dimensions");
+            }
             int measuredWidth = values[0].length;
             for(ComplexNumber[] row : values) {
-                if(measuredWidth != row.length) {
+                if(row == null || measuredWidth != row.length) {
                     throw new IllegalArgumentException("Incorrect matrix dimensions");
                 }
             }
@@ -36,9 +39,12 @@ public class Matrix {
 
     public Matrix(double[][] values) {
         if(values.length > 0) {
+            if(values[0] == null) {
+                throw new IllegalArgumentException("Incorrect matrix dimensions");
+            }
             int measuredWidth = values[0].length;
             for(double[] row : values) {
-                if(measuredWidth != row.length) {
+                if(row == null || measuredWidth != row.length) {
                     throw new IllegalArgumentException("Incorrect matrix dimensions");
                 }
             }
@@ -224,6 +230,19 @@ public class Matrix {
             concatValues[row] = m.getRow(row - getHeight()).getValueArray()[0];
         }
         return new Matrix(concatValues);
+    }
+
+    public Matrix subMatrix(int rowStart, int colStart, int rowEnd, int colEnd) {
+        if(rowStart > rowEnd || colStart > colEnd || rowStart < 0 || colStart < 0 || rowEnd >= getHeight() || colEnd >= getWidth()) {
+            return null;
+        }
+        ComplexNumber[][] subValues = new ComplexNumber[rowEnd - rowStart + 1][colEnd - colStart + 1];
+        for(int row = rowStart ; row <= rowEnd ; row++) {
+            for(int col = colStart ; col <= colEnd ; col++) {
+                subValues[row - rowStart][col - colStart] = valueAt(row, col);
+            }
+        }
+        return new Matrix(subValues);
     }
 
     @Override
