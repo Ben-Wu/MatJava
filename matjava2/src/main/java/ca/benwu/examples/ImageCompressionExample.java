@@ -24,11 +24,11 @@ public class ImageCompressionExample {
             Scanner s = new Scanner(System.in);
             System.out.println("Input filename: ");
 
-            String inputFilename = "house.jpg";
+            String inputFilename = s.next();
 
             System.out.println("Output filename: ");
 
-            String outputFilename = "compressed.jpg";
+            String outputFilename = s.next();
 
             // read image pixel data
             final int[][][] pixelData = ImageProcessor.readImage(inputFilename);
@@ -85,7 +85,7 @@ public class ImageCompressionExample {
                                 compressedMatrix = compressedMatrix.vertcat(compressedRow);
                             }
                         }
-                        compressedPixelData[colourIndex] = compressedMatrix.round();
+                        compressedPixelData[colourIndex] = new Matrix(compressedMatrix.round()).limit(0, 255);
                         counter++;
                     }
                 }).start();
@@ -101,9 +101,11 @@ public class ImageCompressionExample {
 
             ImageProcessor.writeImage(compressedPixelData, outputFilename);
 
-            System.out.print("done: " + (System.currentTimeMillis() - startTime));
+            System.out.println();
+            System.out.println("done: " + (System.currentTimeMillis() - startTime));
         } catch (IOException e) {
-            System.out.print("failed");
+            System.out.println();
+            System.out.println("failed");
         }
     }
 }

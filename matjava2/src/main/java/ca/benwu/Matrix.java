@@ -296,6 +296,17 @@ public class Matrix {
         return realValues;
     }
 
+    public int[][] limit(int min, int max) {
+        int[][] realValues = new int[getHeight()][getWidth()];
+
+        for(int row = 0 ; row < getHeight() ; row++) {
+            for(int col = 0 ; col < getWidth() ; col++) {
+                realValues[row][col] = Math.min(Math.max((int) valueAt(row, col).getReal(), min), max);
+            }
+        }
+        return realValues;
+    }
+
     public static Matrix zeros(int height, int width) {
         int[][] zeros = new int[height][width];
 
