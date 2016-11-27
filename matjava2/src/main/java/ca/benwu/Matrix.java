@@ -65,7 +65,36 @@ public class Matrix {
         if(width < 1 || height < 1) {
             throw new IllegalArgumentException("Dimensions must be non-zero");
         }
+    }
 
+    public Matrix(int[][] values) {
+        if(values.length > 0) {
+            if(values[0] == null) {
+                throw new IllegalArgumentException("Incorrect matrix dimensions");
+            }
+            int measuredWidth = values[0].length;
+            for(int[] row : values) {
+                if(row == null || measuredWidth != row.length) {
+                    throw new IllegalArgumentException("Incorrect matrix dimensions");
+                }
+            }
+            this.width = measuredWidth;
+        } else {
+            this.width = 0;
+        }
+        this.height = values.length;
+
+        this.values = new ComplexNumber[height][width];
+
+        for(int row = 0 ; row < height ; row++) {
+            for(int col = 0 ; col < width ; col++) {
+                this.values[row][col] = new ComplexNumber(values[row][col]);
+            }
+        }
+
+        if(width < 1 || height < 1) {
+            throw new IllegalArgumentException("Dimensions must be non-zero");
+        }
     }
 
     @Override
@@ -243,6 +272,38 @@ public class Matrix {
             }
         }
         return new Matrix(subValues);
+    }
+
+    public double[][] real() {
+        double[][] realValues = new double[getHeight()][getWidth()];
+
+        for(int row = 0 ; row < getHeight() ; row++) {
+            for(int col = 0 ; col < getWidth() ; col++) {
+                realValues[row][col] = valueAt(row, col).getReal();
+            }
+        }
+        return realValues;
+    }
+
+    public int[][] round() {
+        int[][] realValues = new int[getHeight()][getWidth()];
+
+        for(int row = 0 ; row < getHeight() ; row++) {
+            for(int col = 0 ; col < getWidth() ; col++) {
+                realValues[row][col] = (int) valueAt(row, col).getReal();
+            }
+        }
+        return realValues;
+    }
+
+    public static Matrix zeros(int height, int width) {
+        int[][] zeros = new int[height][width];
+
+        for(int[] row : zeros) {
+            Arrays.fill(row, 0);
+        }
+
+        return new Matrix(zeros);
     }
 
     @Override

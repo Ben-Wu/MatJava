@@ -41,7 +41,7 @@ public class ImageProcessor {
         WritableRaster raster = image.getRaster();
         raster.setPixels(0, 0, width, height, newImage);
 
-        ImageIO.write(image, "png", new File(filename));
+        ImageIO.write(image, colours == 4 ? "png" : "jpg", new File(filename));
     }
 
     private static int[][][] getPixelData(BufferedImage image) {

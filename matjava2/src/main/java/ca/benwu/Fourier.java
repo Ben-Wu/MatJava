@@ -22,26 +22,57 @@ public class Fourier {
     // x.length must be a power of 2
     public static ComplexNumber[] fft(ComplexNumber[] f) {
         int n = f.length;
-
-        if (n == 1) return new ComplexNumber[] { f[0] };
-
-        ComplexNumber[] even = new ComplexNumber[n/2];
-        ComplexNumber[] odd  = new ComplexNumber[n/2];
-        for (int k = 0; k < n/2; k++) {
-            even[k] = f[2*k];
-            odd[k] = f[2*k + 1];
-        }
-        even = fft(even);
-        odd = fft(odd);
-
         ComplexNumber[] F = new ComplexNumber[n];
-        for (int k = 0; k < n/2; k++) {
-            double kth = -2 * k * Math.PI / n;
-            ComplexNumber wk = new ComplexNumber(Math.cos(kth), Math.sin(kth));
-            F[k] = even[k].plus(wk.times(odd[k]));
-            F[k+n/2] = even[k].minus(wk.times(odd[k]));
+
+        if (n == 1) {
+            return new ComplexNumber[]{f[0]};
+        } else if(n == 0) {
+            return null;
+        }
+
+        // choose algorithm based on if n is a power of two
+        if(!powerOfTwo(n)) {
+            for (int k = 0; k < n; k++) {
+                ComplexNumber sum = new ComplexNumber(0);
+
+                for (int t = 0; t < n; t++) {
+                    double angle = -2 * Math.PI * t * k / n;
+                    ComplexNumber wk = new ComplexNumber(Math.cos(angle), Math.sin(angle));
+                    sum = sum.plus(wk.times(f[t]));
+                }
+                F[k] = sum;
+            }
+        } else {
+            ComplexNumber[] even = new ComplexNumber[n / 2];
+            ComplexNumber[] odd = new ComplexNumber[n / 2];
+            for (int k = 0; k < n / 2; k++) {
+                even[k] = f[2 * k];
+                odd[k] = f[2 * k + 1];
+            }
+            even = fft(even);
+            odd = fft(odd);
+
+            for (int k = 0; k < n / 2; k++) {
+                double kth = -2 * k * Math.PI / n;
+                ComplexNumber wk = new ComplexNumber(Math.cos(kth), Math.sin(kth));
+                F[k] = even[k].plus(wk.times(odd[k]));
+                F[k + n / 2] = even[k].minus(wk.times(odd[k]));
+            }
         }
         return F;
+    }
+
+    private static boolean powerOfTwo(int n) {
+        if(n == 0) {
+             return false;
+        }
+        while(n % 2 == 0) {
+            if(n == 2 || n == 1) {
+                return true;
+            }
+            n /= 2;
+        }
+        return false;
     }
 
     public static Matrix dft2(Matrix f) {
@@ -80,6 +111,14 @@ public class Fourier {
         }
 
         return f;
+    }
+
+    public static Matrix dct(Matrix f) {
+        return inverseExtension(dft2(extension(f)));
+    }
+
+    public static Matrix idct(Matrix F) {
+        return inverseExtension(idft2(extension(F)));
     }
 
     public static Matrix idft2(Matrix F) {

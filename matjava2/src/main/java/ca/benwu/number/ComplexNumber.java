@@ -94,7 +94,7 @@ public class ComplexNumber extends AbstractNumber {
     @Override
     public boolean equals(Object o) {
         return (o instanceof ComplexNumber)
-                && Math.abs(getReal() -((ComplexNumber) o).getReal()) < 0.0002
-                && Math.abs(getImaginary() - ((ComplexNumber) o).getImaginary()) < 0.0002;
+                && Math.abs(getReal() - ((ComplexNumber) o).getReal()) < 0.001
+                && Math.abs(getImaginary() - ((ComplexNumber) o).getImaginary()) < 0.001;
     }
 }

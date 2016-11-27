@@ -1,15 +1,17 @@
-package ca.benwu;
+package ca.benwu.examples;
 
 import java.io.IOException;
 import java.util.Scanner;
+
+import ca.benwu.ImageProcessor;
 
 /**
  * Created by Ben Wu on 2016-11-22.
  */
 
-public class Test {
+public class ImageInputOutputExample {
     public static void main(String[] args) {
-        System.out.println(Math.exp(3));
+        imageTest();
     }
 
     private static void imageTest() {
